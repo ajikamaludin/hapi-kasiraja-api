@@ -8,9 +8,13 @@ const ClientError = require('./exceptions/ClientError');
 // authentications
 const authentications = require('./api/authentications');
 const AuthenticationsService = require('./services/postgres/AuthenticationsService');
-const UsersService = require('./services/postgres/UsersService');
 const TokenManager = require('./tokenize/TokenManager');
 const AuthenticationsValidator = require('./validator/authentications');
+
+// users
+const users = require('./api/users');
+const UsersService = require('./services/postgres/UsersService');
+const UsersValidator = require('./validator/users');
 
 // registrations
 const registrations = require('./api/registrations');
@@ -103,6 +107,13 @@ const init = async () => {
       options: {
         service: registrationsService,
         validator: RegistrationsValidator,
+      },
+    },
+    {
+      plugin: users,
+      options: {
+        service: usersService,
+        validator: UsersValidator,
       },
     },
   ]);
