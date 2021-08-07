@@ -35,7 +35,7 @@ class RegistrationService {
       };
 
       const createUserQuery = {
-        text: 'INSERT INTO users(id, name, email, password, role, company_id) VALUES ((select uuid_generate_v4()), $1, $2, $3, $4)',
+        text: 'INSERT INTO users(id, name, email, password, role, company_id) VALUES ((select uuid_generate_v4()), $1, $2, $3, $4, $5)',
         values: [name, email, hashedPassword, 'admin', companyId],
       };
 
