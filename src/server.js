@@ -21,11 +21,16 @@ const registrations = require('./api/registrations');
 const RegistrationsService = require('./services/postgres/RegistrationService');
 const RegistrationsValidator = require('./validator/registration');
 
+// untis
+const units = require('./api/units');
+const UnitsService = require('./services/postgres/UnitsService');
+
 const init = async () => {
   // instances
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
   const registrationsService = new RegistrationsService(usersService);
+  const unitsService = new UnitsService();
 
   // server
   const server = Hapi.server({
@@ -114,6 +119,12 @@ const init = async () => {
       options: {
         service: usersService,
         validator: UsersValidator,
+      },
+    },
+    {
+      plugin: units,
+      options: {
+        service: unitsService,
       },
     },
   ]);
