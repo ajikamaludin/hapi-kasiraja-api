@@ -25,12 +25,18 @@ const RegistrationsValidator = require('./validator/registration');
 const units = require('./api/units');
 const UnitsService = require('./services/postgres/UnitsService');
 
+// products
+const products = require('./api/products');
+const ProductsService = require('./services/postgres/ProductsService');
+const ProductsValidator = require('./validator/products');
+
 const init = async () => {
   // instances
   const usersService = new UsersService();
   const authenticationsService = new AuthenticationsService();
   const registrationsService = new RegistrationsService(usersService);
   const unitsService = new UnitsService();
+  const productsService = new ProductsService();
 
   // server
   const server = Hapi.server({
@@ -125,6 +131,13 @@ const init = async () => {
       plugin: units,
       options: {
         service: unitsService,
+      },
+    },
+    {
+      plugin: products,
+      options: {
+        service: productsService,
+        validator: ProductsValidator,
       },
     },
   ]);
