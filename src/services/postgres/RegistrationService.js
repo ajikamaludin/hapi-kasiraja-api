@@ -35,8 +35,8 @@ class RegistrationService {
       };
 
       const createUserQuery = {
-        text: 'INSERT INTO users(id, name, email, password, company_id) VALUES ((select uuid_generate_v4()), $1, $2, $3, $4)',
-        values: [name, email, hashedPassword, companyId],
+        text: 'INSERT INTO users(id, name, email, password, role, company_id) VALUES ((select uuid_generate_v4()), $1, $2, $3, $4)',
+        values: [name, email, hashedPassword, 'admin', companyId],
       };
 
       await this._pool.query(createCompanyQuery);
