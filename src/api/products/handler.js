@@ -4,6 +4,10 @@ class ProductsHandler {
     this._validator = validator;
 
     this.postProductHandler = this.postProductHandler.bind(this);
+    this.getProductsHandler = this.getProductsHandler.bind(this);
+    this.getProductByIdHandler = this.getProductByIdHandler.bind(this);
+    this.putProductsHandler = this.putProductsHandler.bind(this);
+    this.deleteProductsHandler = this.deleteProductsHandler.bind(this);
   }
 
   async postProductHandler(request, h) {
@@ -29,6 +33,84 @@ class ProductsHandler {
       });
       response.code(201);
       return response;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getProductsHandler(request) {
+    try {
+      this._validator.validateGetProductsPayload(request.query);
+      const { companyId } = request.auth.credentials;
+      const { startDate, endDate, withStock } = request.query;
+      const products = await this._service.getProducts(companyId, {
+        startDate, endDate, withStock,
+      });
+
+      return {
+        status: 'success',
+        data: {
+          products,
+        },
+      };
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async getProductByIdHandler(request) {
+    try {
+      const { companyId } = request.auth.credentials;
+      const { id: productId } = request.params;
+
+      const product = await this._service.getProductById({ productId, companyId });
+
+      return {
+        status: 'success',
+        data: {
+          product,
+        },
+      };
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async putProductsHandler(request) {
+    try {
+      this._validator.validatePutProductPayload(request.payload);
+
+      const { id: productId } = request.params;
+      const {
+        name, description, price, cost, stock, category_id: categoryId,
+      } = request.payload;
+
+      await this._service.updateProductById(productId, {
+        name, description, price, cost, stock, categoryId,
+      });
+
+      return {
+        status: 'success',
+        message: 'Product berhasil diupdate',
+        data: {
+          name,
+        },
+      };
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async deleteProductsHandler(request) {
+    try {
+      const { id: productId } = request.params;
+
+      await this._service.deleteProductById(productId);
+
+      return {
+        status: 'success',
+        message: 'Product berhasil dihapus',
+      };
     } catch (error) {
       return error;
     }

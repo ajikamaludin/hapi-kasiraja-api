@@ -7,38 +7,38 @@ const routes = (handler) => [
       auth: 'kasiraja_jwt',
     },
   },
-  // {
-  //   method: 'GET',
-  //   path: '/users',
-  //   handler: handler.getUsersHandler,
-  //   options: {
-  //     auth: 'kasiraja_jwt',
-  //   },
-  // },
-  // {
-  //   method: 'GET',
-  //   path: '/users/{id}',
-  //   handler: handler.getUserByIdHandler,
-  //   options: {
-  //     auth: 'kasiraja_jwt',
-  //   },
-  // },
-  // {
-  //   method: 'PUT',
-  //   path: '/users/{id}',
-  //   handler: handler.putUsersHandler,
-  //   options: {
-  //     auth: 'kasiraja_jwt',
-  //   },
-  // },
-  // {
-  //   method: 'DELETE',
-  //   path: '/users/{id}',
-  //   handler: handler.deleteUsersHandler,
-  //   options: {
-  //     auth: 'kasiraja_jwt',
-  //   },
-  // },
+  {
+    method: 'GET',
+    path: '/products',
+    handler: handler.getProductsHandler,
+    options: {
+      auth: 'kasiraja_jwt',
+    },
+  },
+  {
+    method: 'GET',
+    path: '/products/{id}',
+    handler: handler.getProductByIdHandler,
+    options: {
+      auth: 'kasiraja_jwt',
+    },
+  },
+  {
+    method: 'PUT',
+    path: '/products/{id}',
+    handler: handler.putProductsHandler,
+    options: {
+      auth: 'kasiraja_jwt',
+    },
+  },
+  {
+    method: 'DELETE',
+    path: '/products/{id}',
+    handler: handler.deleteProductsHandler,
+    options: {
+      auth: 'kasiraja_jwt',
+    },
+  },
 ];
 
 module.exports = routes;

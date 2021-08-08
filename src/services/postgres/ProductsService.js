@@ -9,8 +9,8 @@ class ProductsService {
     this._pool = new Pool();
   }
 
-  async getProducts(companyId, { startDate, endDate }) {
-    const query = {
+  async getProducts(companyId, { startDate, endDate, withStock }) {
+    let query = {
       text: `SELECT 
               name, description, price, cost
             FROM products
@@ -18,19 +18,30 @@ class ProductsService {
       values: [companyId, startDate, endDate],
     };
 
+    if (withStock && withStock === 'true') {
+      query = {
+        text: `SELECT 
+                name, description, price, cost, stock
+              FROM products
+              LEFT JOIN stocks ON stocks.product_id = products.id
+              WHERE company_id = $1 AND created_at BETWEEN $2 AND $3`,
+        values: [companyId, startDate, endDate],
+      };
+    }
+
     const results = await this._pool.query(query);
 
     return results.rows;
   }
 
-  async getProduct({ productId, companyId }) {
+  async getProductById({ productId, companyId }) {
     validateUuid(productId);
 
     const query = {
       text: `SELECT 
-              product.name, product.description, price, cost, cost_average, categories.name as category_name, stocks.stock
+              products.name, products.description, price, cost, cost_average, categories.name as category_name, stocks.stock
             FROM products
-            LEFT JOIN stocks.product_id ON products.id
+            LEFT JOIN stocks ON stocks.product_id = products.id
             LEFT JOIN categories ON categories.id = products.category_id
             WHERE products.id = $1 AND products.company_id = $2`,
       values: [productId, companyId],
@@ -77,7 +88,6 @@ class ProductsService {
       await this._pool.query(stockQuery);
       await this._pool.query('COMMIT');
     } catch (err) {
-      console.log(err);
       await this._pool.query('ROLLBACK');
       throw new InvariantError('Product gagal ditambahkan');
     }
@@ -85,7 +95,7 @@ class ProductsService {
     return productId;
   }
 
-  async updateProduct(productId, {
+  async updateProductById(productId, {
     name, description, price, cost, stock, categoryId,
   }) {
     validateUuid(productId);
@@ -115,7 +125,7 @@ class ProductsService {
     }
   }
 
-  async deleteProduct(productId) {
+  async deleteProductById(productId) {
     validateUuid(productId);
     const query = {
       text: 'DELETE FROM products WHERE id = $1',

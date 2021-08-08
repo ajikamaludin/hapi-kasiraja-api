@@ -21,6 +21,7 @@ const PutProductPayloadSchema = Joi.object({
 const GetProductsPayloadSchema = Joi.object({
   startDate: Joi.date().required(),
   endDate: Joi.date().required(),
+  withStock: Joi.boolean(),
 });
 
 module.exports = { PostProductPayloadSchema, PutProductPayloadSchema, GetProductsPayloadSchema };
