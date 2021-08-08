@@ -3,7 +3,7 @@ const uuid = require('uuid-random');
 const NotFoundError = require('../../exceptions/NotFoundError');
 const { validateUuid } = require('../../utils');
 
-class UsersService {
+class UnitsService {
   constructor() {
     this._pool = new Pool();
   }
@@ -71,4 +71,4 @@ class UsersService {
   }
 }
 
-module.exports = UsersService;
+module.exports = UnitsService;

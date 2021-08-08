@@ -25,6 +25,11 @@ const RegistrationsValidator = require('./validator/registration');
 const units = require('./api/units');
 const UnitsService = require('./services/postgres/UnitsService');
 
+// categories
+const categories = require('./api/categories');
+const CategoriesService = require('./services/postgres/CategoriesService');
+const CategoriesValidator = require('./validator/categories');
+
 // products
 const products = require('./api/products');
 const ProductsService = require('./services/postgres/ProductsService');
@@ -36,6 +41,7 @@ const init = async () => {
   const authenticationsService = new AuthenticationsService();
   const registrationsService = new RegistrationsService(usersService);
   const unitsService = new UnitsService();
+  const categoriesService = new CategoriesService();
   const productsService = new ProductsService();
 
   // server
@@ -138,6 +144,13 @@ const init = async () => {
       options: {
         service: productsService,
         validator: ProductsValidator,
+      },
+    },
+    {
+      plugin: categories,
+      options: {
+        service: categoriesService,
+        validator: CategoriesValidator,
       },
     },
   ]);
