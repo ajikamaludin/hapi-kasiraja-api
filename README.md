@@ -22,7 +22,7 @@ contoh rest api POS ( point of sales ) built with hapi.js
 ### start 
 - install
 
-        npm install
+        `npm install`
 
 - config .env file for database
 
