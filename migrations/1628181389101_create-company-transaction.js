@@ -31,6 +31,10 @@ exports.up = (pgm) => {
       type: 'numeric(16,2)',
       notNull: false,
     },
+    created_by: {
+      type: 'uuid',
+      notNull: true,
+    },
     created_at: {
       type: 'timestamp',
       notNull: true,
@@ -49,6 +53,11 @@ exports.up = (pgm) => {
           columns: 'office_id',
           onDelete: 'CASCADE',
         },
+        {
+          references: 'users(id)',
+          columns: 'created_by',
+          onDelete: 'CASCADE',
+        },
       ],
     },
   });
@@ -57,6 +66,7 @@ exports.up = (pgm) => {
     id: {
       type: 'uuid',
       primaryKey: true,
+      default: pgm.func('uuid_generate_v4()'),
     },
     sale_id: {
       type: 'uuid',
@@ -130,6 +140,10 @@ exports.up = (pgm) => {
       type: 'numeric(16,2)',
       notNull: false,
     },
+    created_by: {
+      type: 'uuid',
+      notNull: true,
+    },
     created_at: {
       type: 'timestamp',
       notNull: true,
@@ -148,6 +162,11 @@ exports.up = (pgm) => {
           columns: 'office_id',
           onDelete: 'CASCADE',
         },
+        {
+          references: 'users(id)',
+          columns: 'created_by',
+          onDelete: 'CASCADE',
+        },
       ],
     },
   });
@@ -156,6 +175,7 @@ exports.up = (pgm) => {
     id: {
       type: 'uuid',
       primaryKey: true,
+      default: pgm.func('uuid_generate_v4()'),
     },
     purchase_id: {
       type: 'uuid',

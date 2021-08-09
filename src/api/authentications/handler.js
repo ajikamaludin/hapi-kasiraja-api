@@ -21,6 +21,7 @@ class AuthenticationsHandler {
       const refreshToken = this._tokenManager.generateRefreshToken({ id, companyId });
 
       await this._authenticationsService.addRefreshToken(refreshToken);
+      const user = await this._usersService.getMe(id);
 
       const response = h.response({
         status: 'success',
@@ -28,6 +29,7 @@ class AuthenticationsHandler {
         data: {
           accessToken,
           refreshToken,
+          user,
         },
       });
       response.code(201);

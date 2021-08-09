@@ -35,6 +35,11 @@ const products = require('./api/products');
 const ProductsService = require('./services/postgres/ProductsService');
 const ProductsValidator = require('./validator/products');
 
+// sale transaction
+const sales = require('./api/sales');
+const SalesService = require('./services/postgres/SalesServive');
+const SalesValidator = require('./validator/sales');
+
 const init = async () => {
   // instances
   const usersService = new UsersService();
@@ -43,6 +48,7 @@ const init = async () => {
   const unitsService = new UnitsService();
   const categoriesService = new CategoriesService();
   const productsService = new ProductsService();
+  const salesService = new SalesService();
 
   // server
   const server = Hapi.server({
@@ -151,6 +157,13 @@ const init = async () => {
       options: {
         service: categoriesService,
         validator: CategoriesValidator,
+      },
+    },
+    {
+      plugin: sales,
+      options: {
+        service: salesService,
+        validator: SalesValidator,
       },
     },
   ]);

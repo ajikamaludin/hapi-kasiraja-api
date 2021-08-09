@@ -92,6 +92,28 @@ class UsersService {
     return result.rows[0];
   }
 
+  async getMe(userId) {
+    validateUuid(userId);
+
+    const query = {
+      text: `SELECT 
+              users.name, users.email, offices.id as officeId, companies.id as companyId 
+            FROM users 
+            LEFT JOIN companies ON companies.id = users.company_id
+            LEFT JOIN offices ON companies.id = offices.company_id
+            WHERE users.id = $1`,
+      values: [userId],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (result.rowCount < 1) {
+      throw new NotFoundError('User tidak ditemukan');
+    }
+
+    return result.rows[0];
+  }
+
   async updateUserById(userId, { name, email, password }) {
     validateUuid(userId);
 
