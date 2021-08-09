@@ -1,0 +1,1911 @@
+{
+	"info": {
+		"_postman_id": "72e20735-4c0d-4580-aef8-43ce533e60c9",
+		"name": "KasirAja API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test is ok!', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('Ok!');",
+									"    // pm.environment.get('songId')",
+									"    pm.environment.set('status', responseJson.status);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}",
+							"host": [
+								"{{host}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test registration status code', () => {",
+									"    pm.response.to.have.status(201)",
+									"});",
+									"",
+									"pm.test('test registration content', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('email', responseJson.data.email);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{name}}\",\n    \"email\": \"{{$timestamp}}-toko1@gmail.com\",\n    \"password\": \"{{password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/registration",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(201)",
+									"});",
+									"",
+									"pm.test('test login accesstoken', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('accessToken', responseJson.data.accessToken)",
+									"    pm.environment.set('refreshToken', responseJson.data.refreshToken)",
+									"    pm.environment.set('officeId', responseJson.data.user.officeid)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/authentications",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"authentications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refreshToken",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test valid refresh token', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('accessToken', responseJson.data.accessToken)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/authentications",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"authentications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test valid refresh token valid', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    // pm.environment.set('accessToken', '')",
+									"    // pm.environment.set('refreshToken', '')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/authentications",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"authentications"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "add user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(201)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('userId', responseJson.data.userId)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"user-{{$timestamp}}\",\n    \"email\": \"{{$timestamp}}-user@gmail.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/{{userId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');",
+									"",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));",
+									"pm.environment.set('futuredate', moment().add(5, 'days').format((\"YYYY-MM-DD\")))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users?startDate={{currentdate}}&endDate={{futuredate}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{currentdate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{futuredate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"update-user\",\n    \"email\" : \"{{$timestamp}}update-user@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/users/{{userId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('userId', '')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/users/{{userId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Units",
+			"item": [
+				{
+					"name": "add  unit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(201)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('unitId', responseJson.data.unitId)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"meter\",\n    \"description\": \"no-meter\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/units",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"units"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get unit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/units/{{unitId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"units",
+								"{{unitId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get units",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');",
+									"",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));",
+									"pm.environment.set('futuredate', moment().add(5, 'days').format((\"YYYY-MM-DD\")))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/units?startDate={{currentdate}}&endDate={{futuredate}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"units"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{currentdate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{futuredate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update unit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"update-meter\",\n    \"description\": \"no-meter\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/units/{{unitId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"units",
+								"{{unitId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete unit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('unitId', '')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/units/{{unitId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"units",
+								"{{unitId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "add  category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(201)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('categoryId', responseJson.data.categoryId)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"makanan\",\n    \"description\": \"no-makanan\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/categories",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categories/{{categoryId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categories",
+								"{{categoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get categories",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');",
+									"",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));",
+									"pm.environment.set('futuredate', moment().add(5, 'days').format((\"YYYY-MM-DD\")))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categories?startDate={{currentdate}}&endDate={{futuredate}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categories"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{currentdate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{futuredate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update categoriy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"update-minuman\",\n    \"description\": \"no-minuman\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/categories/{{categoryId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categories",
+								"{{categoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('unitId', '')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/categories/{{categoryId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"categories",
+								"{{categoryId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "add product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(201)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('productId', responseJson.data.productId)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const createProduct1Request = {",
+									"    url: 'http://localhost:5000/categories',",
+									"    method: 'POST',",
+									"    header: {",
+									"        'Content-Type': 'application/json',",
+									"        'Authorization': `Bearer ${pm.environment.get('accessToken')}`",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"            name: \"cat pro\",",
+									"        }),",
+									"    },",
+									"};",
+									" ",
+									"pm.sendRequest(createProduct1Request, (error, response) => {",
+									"    console.log(error ? error : response);",
+									"    const result = response.json()",
+									"    pm.environment.set('categoryId', result.data.categoryId)",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category_id\" : \"{{categoryId}}\",\n    \"name\": \"es krim\",\n    \"price\": \"2000\",\n    \"cost\": \"1000\",\n    \"stock\": \"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/products",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/products/{{productId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');",
+									"",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));",
+									"pm.environment.set('futuredate', moment().add(5, 'days').format((\"YYYY-MM-DD\")))"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/products?startDate={{currentdate}}&endDate={{futuredate}}&withStock=true",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{currentdate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{futuredate}}"
+								},
+								{
+									"key": "withStock",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category_id\" : \"{{categoryId}}\",\n    \"name\": \"es krim update\",\n    \"price\": \"3000\",\n    \"cost\": \"2000\",\n    \"stock\": \"20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/products/{{productId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('productId', '')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/products/{{productId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "sale",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const createProduct1Request = {",
+									"    url: 'http://localhost:5000/products',",
+									"    method: 'POST',",
+									"    header: {",
+									"        'Content-Type': 'application/json',",
+									"        'Authorization': `Bearer ${pm.environment.get('accessToken')}`",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"            category_id : pm.environment.get('categoryId'),",
+									"            name: \"es krim\",",
+									"            price: \"2000\",",
+									"            cost: \"1000\",",
+									"            stock: \"2\"",
+									"        }),",
+									"    },",
+									"};",
+									" ",
+									"pm.sendRequest(createProduct1Request, (error, response) => {",
+									"    console.log(error ? error : response);",
+									"    const result = response.json()",
+									"    pm.environment.set('productId-1', result.data.productId)",
+									"});",
+									"",
+									"const createProduct2Request = {",
+									"    url: 'http://localhost:5000/products',",
+									"    method: 'POST',",
+									"    header: {",
+									"        'Content-Type': 'application/json',",
+									"        'Authorization': `Bearer ${pm.environment.get('accessToken')}`",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"            category_id : pm.environment.get('categoryId'),",
+									"            name: \"roti bakar\",",
+									"            price: \"4000\",",
+									"            cost: \"2000\",",
+									"            stock: \"4\"",
+									"        }),",
+									"    },",
+									"};",
+									" ",
+									"pm.sendRequest(createProduct2Request, (error, response) => {",
+									"    console.log(error ? error : response);",
+									"    const result = response.json()",
+									"    pm.environment.set('productId-2', result.data.productId)",
+									"});",
+									"",
+									"var moment = require('moment');",
+									"",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));",
+									"pm.environment.set('futuredate', moment().add(5, 'days').format((\"YYYY-MM-DD\")))",
+									" "
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(201)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('saleId', responseJson.data.saleId)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"officeId\": \"{{officeId}}\",\n    \"date\": \"{{currentdate}}\",\n    \"invoice\": \"test\",\n    \"amount\": 2000,\n    \"discount\": 0,\n    \"description\": \"test saja\",\n    \"items\" : [\n        {\n            \"productId\": \"{{productId-1}}\",\n            \"quantity\": 1,\n            \"price\": 2000\n        },\n        {\n            \"productId\": \"{{productId-2}}\",\n            \"quantity\": 1,\n            \"price\": 4000\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/sales",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get sales",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');",
+									"",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));",
+									"pm.environment.set('futuredate', moment().add(5, 'days').format((\"YYYY-MM-DD\")))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sales?startDate={{currentdate}}&endDate={{futuredate}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sales"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{currentdate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{futuredate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get sale",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/sales/{{saleId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"sales",
+								"{{saleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "purchase",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const createProduct1Request = {",
+									"    url: 'http://localhost:5000/products',",
+									"    method: 'POST',",
+									"    header: {",
+									"        'Content-Type': 'application/json',",
+									"        'Authorization': `Bearer ${pm.environment.get('accessToken')}`",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"            category_id : pm.environment.get('categoryId'),",
+									"            name: \"es krim\",",
+									"            price: \"2000\",",
+									"            cost: \"1000\",",
+									"            stock: \"2\"",
+									"        }),",
+									"    },",
+									"};",
+									" ",
+									"pm.sendRequest(createProduct1Request, (error, response) => {",
+									"    console.log(error ? error : response);",
+									"    const result = response.json()",
+									"    pm.environment.set('productId-1', result.data.productId)",
+									"});",
+									"",
+									"const createProduct2Request = {",
+									"    url: 'http://localhost:5000/products',",
+									"    method: 'POST',",
+									"    header: {",
+									"        'Content-Type': 'application/json',",
+									"        'Authorization': `Bearer ${pm.environment.get('accessToken')}`",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"            category_id : pm.environment.get('categoryId'),",
+									"            name: \"roti bakar\",",
+									"            price: \"4000\",",
+									"            cost: \"2000\",",
+									"            stock: \"4\"",
+									"        }),",
+									"    },",
+									"};",
+									" ",
+									"pm.sendRequest(createProduct2Request, (error, response) => {",
+									"    console.log(error ? error : response);",
+									"    const result = response.json()",
+									"    pm.environment.set('productId-2', result.data.productId)",
+									"});",
+									"",
+									"var moment = require('moment');",
+									"",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));",
+									"pm.environment.set('futuredate', moment().add(5, 'days').format((\"YYYY-MM-DD\")))",
+									" "
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(201)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('purchaseId', responseJson.data.purchaseId)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"officeId\": \"{{officeId}}\",\n    \"date\": \"{{currentdate}}\",\n    \"invoice\": \"test\",\n    \"amount\": 2000,\n    \"discount\": 0,\n    \"description\": \"test saja\",\n    \"items\" : [\n        {\n            \"productId\": \"{{productId-1}}\",\n            \"quantity\": 1,\n            \"cost\": 1000\n        },\n        {\n            \"productId\": \"{{productId-2}}\",\n            \"quantity\": 1,\n            \"cost\": 2000\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/purchases",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"purchases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get purchases",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');",
+									"",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));",
+									"pm.environment.set('futuredate', moment().add(5, 'days').format((\"YYYY-MM-DD\")))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/purchases?startDate={{currentdate}}&endDate={{futuredate}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"purchases"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "{{currentdate}}"
+								},
+								{
+									"key": "endDate",
+									"value": "{{futuredate}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get purchase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/purchases/{{purchaseId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"purchases",
+								"{{purchaseId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

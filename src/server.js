@@ -35,10 +35,15 @@ const products = require('./api/products');
 const ProductsService = require('./services/postgres/ProductsService');
 const ProductsValidator = require('./validator/products');
 
-// sale transaction
+// sales
 const sales = require('./api/sales');
-const SalesService = require('./services/postgres/SalesServive');
+const SalesService = require('./services/postgres/SalesService');
 const SalesValidator = require('./validator/sales');
+
+// purchases
+const purchases = require('./api/purchases');
+const PurchasesService = require('./services/postgres/PurchasesService');
+const PurchasesValidator = require('./validator/purchases');
 
 const init = async () => {
   // instances
@@ -49,6 +54,7 @@ const init = async () => {
   const categoriesService = new CategoriesService();
   const productsService = new ProductsService();
   const salesService = new SalesService();
+  const purchasesService = new PurchasesService();
 
   // server
   const server = Hapi.server({
@@ -92,6 +98,8 @@ const init = async () => {
     path: '/',
     handler: () => ({
       status: 'Ok!',
+      name: 'kasirAja Api',
+      version: '1.0.0',
     }),
   });
 
@@ -164,6 +172,13 @@ const init = async () => {
       options: {
         service: salesService,
         validator: SalesValidator,
+      },
+    },
+    {
+      plugin: purchases,
+      options: {
+        service: purchasesService,
+        validator: PurchasesValidator,
       },
     },
   ]);

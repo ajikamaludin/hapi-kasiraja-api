@@ -36,12 +36,12 @@ exports.up = (pgm) => {
       notNull: true,
     },
     created_at: {
-      type: 'timestamp',
+      type: 'timestamp without time zone',
       notNull: true,
       default: pgm.func('current_timestamp'),
     },
     updated_at: {
-      type: 'timestamp',
+      type: 'timestamp without time zone',
       notNull: true,
       default: pgm.func('current_timestamp'),
     },
@@ -85,12 +85,12 @@ exports.up = (pgm) => {
       notNull: true,
     },
     created_at: {
-      type: 'timestamp',
+      type: 'timestamp without time zone',
       notNull: true,
       default: pgm.func('current_timestamp'),
     },
     updated_at: {
-      type: 'timestamp',
+      type: 'timestamp without time zone',
       notNull: true,
       default: pgm.func('current_timestamp'),
     },
@@ -145,12 +145,12 @@ exports.up = (pgm) => {
       notNull: true,
     },
     created_at: {
-      type: 'timestamp',
+      type: 'timestamp without time zone',
       notNull: true,
       default: pgm.func('current_timestamp'),
     },
     updated_at: {
-      type: 'timestamp',
+      type: 'timestamp without time zone',
       notNull: true,
       default: pgm.func('current_timestamp'),
     },
@@ -194,12 +194,12 @@ exports.up = (pgm) => {
       notNull: true,
     },
     created_at: {
-      type: 'timestamp',
+      type: 'timestamp without time zone',
       notNull: true,
       default: pgm.func('current_timestamp'),
     },
     updated_at: {
-      type: 'timestamp',
+      type: 'timestamp without time zone',
       notNull: true,
       default: pgm.func('current_timestamp'),
     },

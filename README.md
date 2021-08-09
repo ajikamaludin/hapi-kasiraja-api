@@ -2,15 +2,16 @@
 contoh rest api POS ( point of sales ) built with hapi.js
 
 ### frontend
-`NextJS (Web App)`: [Coming Soon](#)
+`NextJS (Web App - kasirAja)`: [Coming Soon](#)
 
-`React Native (Mobile App): ` [Coming Soon](#)
+`React Native (Mobile App - kasirAja)`: [Coming Soon](#)
 
 ### table structure
 ![table structure](https://github.com/ajikamaludin/hapi-kasiraja-api/raw/dev/documents/tables.png)
 ### feature
 - PostgreSQL database
 - bisa lebih dari 1 toko `multi store`
+- bisa lebih dari 1 kasir `multi users`
 - pengelolaan produk, stok dan unit
 - pembelian
 - penjualan
