@@ -7,7 +7,7 @@ contoh rest api POS ( point of sales ) built with hapi.js
 `React Native (Mobile App): ` [Coming Soon](#)
 
 ### table structure
-
+!(table structure)[https://github.com/ajikamaludin/hapi-kasiraja-api/raw/dev/documents/tables.png]
 ### feature
 - PostgreSQL database
 - bisa lebih dari 1 toko `multi store`
@@ -22,23 +22,23 @@ contoh rest api POS ( point of sales ) built with hapi.js
 ### start 
 - install
 
-`npm install`
+        `npm install`
 
 - config .env file for database
 
-`cp .env.example .env`
+        `cp .env.example .env`
 
 - migrate database
 
-`npm run migrate up`
+        `npm run migrate up`
 
 - run the app
 
-`npm run start`
+        `npm run start`
 
 - test
 
-`curl -i -H 'Accept: application/json' http://localhost:5000/`
+        `curl -i -H 'Accept: application/json' http://localhost:5000/`
 
 response
 
