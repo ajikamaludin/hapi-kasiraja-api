@@ -18,7 +18,7 @@ contoh rest api POS ( point of sales ) built with hapi.js
 - diskon penjualan
 
 ### documention API
-`Postman (import file)` : [Link](#)
+`Postman (import file)` : [Link](https://github.com/ajikamaludin/hapi-kasiraja-api/tree/dev/documents/postman-collection)
 
 ### start 
 - install
