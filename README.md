@@ -37,6 +37,7 @@ contoh rest api POS ( point of sales ) built with hapi.js
         npm run start
 
 - test
+
         curl -i -H 'Accept: application/json' http://localhost:5000/
 
 response
