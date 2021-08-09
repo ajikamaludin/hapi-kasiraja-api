@@ -24,7 +24,7 @@ class ProductsService {
                 name, description, price, cost, stock
               FROM products
               LEFT JOIN stocks ON stocks.product_id = products.id
-              WHERE company_id = $1 AND created_at BETWEEN $2 AND $3`,
+              WHERE company_id = $1 AND products.created_at BETWEEN $2 AND $3`,
         values: [companyId, startDate, endDate],
       };
     }
@@ -82,14 +82,18 @@ class ProductsService {
       values: [stockId, productId, stock, companyId],
     };
 
+    const client = await this._pool.connect();
+
     try {
-      await this._pool.query('BEGIN');
-      await this._pool.query(productQuery);
-      await this._pool.query(stockQuery);
-      await this._pool.query('COMMIT');
+      await client.query('BEGIN');
+      await client.query(productQuery);
+      await client.query(stockQuery);
+      await client.query('COMMIT');
     } catch (err) {
-      await this._pool.query('ROLLBACK');
-      throw new InvariantError('Product gagal ditambahkan');
+      await client.query('ROLLBACK');
+      throw new InvariantError(`Product gagal ditambahkan: ${err.message}`);
+    } finally {
+      client.release();
     }
 
     return productId;
