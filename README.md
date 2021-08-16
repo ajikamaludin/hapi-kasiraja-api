@@ -2,7 +2,7 @@
 contoh rest api POS ( point of sales ) built with hapi.js
 
 ### frontend
-`NextJS (Web App - kasirAja)`: [Coming Soon](#)
+`ReactJS (Web App - kasirAja)`: [Coming Soon](#)
 
 `React Native (Mobile App - kasirAja)`: [Coming Soon](#)
 

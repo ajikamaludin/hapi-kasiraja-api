@@ -92,14 +92,16 @@ const init = async () => {
     }),
   });
 
-  // route /
+  // route
   server.route({
     method: 'GET',
     path: '/',
     handler: () => ({
-      status: 'Ok!',
-      name: 'kasirAja Api',
-      version: '1.0.0',
+      data: {
+        status: 'Ok!',
+        name: 'kasirAja Api',
+        version: '1.0.0',
+      },
     }),
   });
 
