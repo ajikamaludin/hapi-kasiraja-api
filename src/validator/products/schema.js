@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const PostProductPayloadSchema = Joi.object({
   name: Joi.string().required(),
-  description: Joi.string(),
+  description: Joi.string().allow(''),
   cost: Joi.number().required(),
   price: Joi.number().required(),
   stock: Joi.number().required(),
@@ -11,7 +11,7 @@ const PostProductPayloadSchema = Joi.object({
 
 const PutProductPayloadSchema = Joi.object({
   name: Joi.string().required(),
-  description: Joi.string(),
+  description: Joi.string().allow(''),
   cost: Joi.number().required(),
   price: Joi.number().required(),
   stock: Joi.number().required(),
@@ -21,7 +21,7 @@ const PutProductPayloadSchema = Joi.object({
 const GetProductsPayloadSchema = Joi.object({
   startDate: Joi.date().required(),
   endDate: Joi.date().required(),
-  withStock: Joi.boolean(),
+  withStock: Joi.boolean().allow(''),
 });
 
 module.exports = { PostProductPayloadSchema, PutProductPayloadSchema, GetProductsPayloadSchema };

@@ -9,7 +9,7 @@ const PostUserPayloadSchema = Joi.object({
 const PutUserPayloadSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
-  password: Joi.string(),
+  password: Joi.string().allow(''),
 });
 
 const GetUsersPayloadSchema = Joi.object({
