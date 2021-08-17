@@ -10,7 +10,7 @@ class UnitsService {
 
   async getUnits(companyId, { startDate, endDate }) {
     const query = {
-      text: 'SELECT name, description FROM units WHERE company_id = $1 AND created_at BETWEEN $2 AND $3',
+      text: 'SELECT id, name, description FROM units WHERE company_id = $1 AND created_at BETWEEN $2 AND $3',
       values: [companyId, startDate, endDate],
     };
 

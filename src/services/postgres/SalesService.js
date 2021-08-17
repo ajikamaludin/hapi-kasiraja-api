@@ -67,7 +67,7 @@ class SalesService {
   async getSales(companyId, { startDate, endDate }) {
     const query = {
       text: `SELECT 
-              invoice, date, amount, offices.name as office_name
+              sales.id, invoice, date, amount, offices.name as office_name
             FROM sales 
             LEFT JOIN offices ON offices.id = sales.office_id
             WHERE 

@@ -51,7 +51,7 @@ class PurchasesService {
   async getPurchases(companyId, { startDate, endDate }) {
     const query = {
       text: `SELECT 
-              invoice, date, amount, offices.name as office_name
+              purchases.id, invoice, date, amount, offices.name as office_name
             FROM purchases 
             LEFT JOIN offices ON offices.id = purchases.office_id
             WHERE 

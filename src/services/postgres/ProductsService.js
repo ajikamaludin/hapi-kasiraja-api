@@ -12,7 +12,7 @@ class ProductsService {
   async getProducts(companyId, { startDate, endDate, withStock }) {
     let query = {
       text: `SELECT 
-              name, description, price, cost
+              id, name, description, price, cost
             FROM products
             WHERE company_id = $1 AND created_at BETWEEN $2 AND $3`,
       values: [companyId, startDate, endDate],
