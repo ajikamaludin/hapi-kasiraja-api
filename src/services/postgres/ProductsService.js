@@ -14,7 +14,7 @@ class ProductsService {
       text: `SELECT 
               id, name, description, price, cost
             FROM products
-            WHERE company_id = $1 AND created_at BETWEEN $2 AND $3`,
+            WHERE company_id = $1 AND created_at::DATE BETWEEN $2 AND $3`,
       values: [companyId, startDate, endDate],
     };
 

@@ -66,7 +66,7 @@ class UsersService {
   async getUsers(companyId, { startDate, endDate }) {
     // TODO: implement pagination leter
     const query = {
-      text: 'SELECT name, email, role FROM users WHERE company_id = $1 AND created_at BETWEEN $2 AND $3',
+      text: 'SELECT name, email, role FROM users WHERE company_id = $1 AND created_at::DATE BETWEEN $2 AND $3',
       values: [companyId, startDate, endDate],
     };
 
