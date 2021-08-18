@@ -1,4 +1,4 @@
-const { PostProductPayloadSchema, PutProductPayloadSchema, GetProductsPayloadSchema } = require('./schema');
+const { PostProductPayloadSchema, PutProductPayloadSchema } = require('./schema');
 const InvariantError = require('../../exceptions/InvariantError');
 
 const ProductsValidator = {
@@ -10,12 +10,6 @@ const ProductsValidator = {
   },
   validatePutProductPayload: (payload) => {
     const validationResult = PutProductPayloadSchema.validate(payload);
-    if (validationResult.error) {
-      throw new InvariantError(validationResult.error.message);
-    }
-  },
-  validateGetProductsPayload: (payload) => {
-    const validationResult = GetProductsPayloadSchema.validate(payload);
     if (validationResult.error) {
       throw new InvariantError(validationResult.error.message);
     }

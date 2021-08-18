@@ -40,17 +40,17 @@ class ProductsHandler {
 
   async getProductsHandler(request) {
     try {
-      this._validator.validateGetProductsPayload(request.query);
       const { companyId } = request.auth.credentials;
-      const { startDate, endDate, withStock } = request.query;
-      const products = await this._service.getProducts(companyId, {
-        startDate, endDate, withStock,
+      const { page, q, withStock } = request.query;
+      const { products, meta } = await this._service.getProducts(companyId, {
+        page, q, withStock,
       });
 
       return {
         status: 'success',
         data: {
           products,
+          meta,
         },
       };
     } catch (error) {

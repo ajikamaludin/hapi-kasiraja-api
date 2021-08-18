@@ -36,13 +36,14 @@ class UnitsHandler {
   async getUnitsHandler(request) {
     try {
       const { companyId } = request.auth.credentials;
-      const { startDate, endDate } = request.query;
-      const units = await this._service.getUnits(companyId, { startDate, endDate });
+      const { page, q } = request.query;
+      const { units, meta } = await this._service.getUnits(companyId, { page, q });
 
       return {
         status: 'success',
         data: {
           units,
+          meta,
         },
       };
     } catch (error) {

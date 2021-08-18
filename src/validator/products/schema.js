@@ -18,10 +18,4 @@ const PutProductPayloadSchema = Joi.object({
   category_id: Joi.string().guid().required(),
 });
 
-const GetProductsPayloadSchema = Joi.object({
-  startDate: Joi.date().required(),
-  endDate: Joi.date().required(),
-  withStock: Joi.boolean().allow(''),
-});
-
-module.exports = { PostProductPayloadSchema, PutProductPayloadSchema, GetProductsPayloadSchema };
+module.exports = { PostProductPayloadSchema, PutProductPayloadSchema };

@@ -9,13 +9,30 @@ class ProductsService {
     this._pool = new Pool();
   }
 
-  async getProducts(companyId, { startDate, endDate, withStock }) {
+  async getProducts(companyId, {
+    page = 1, q = null, withStock, limit = 10,
+  }) {
+    const recordsQuery = await this._pool.query(`
+      SELECT count(id) as total 
+      FROM products 
+      WHERE 
+        company_id = '${companyId}' 
+        ${q !== null ? `AND name ILIKE '%${q}%'` : ''}
+    `);
+
+    const { total } = recordsQuery.rows[0];
+
+    const totalPages = Math.ceil(total / limit);
+    const offsets = limit * (page - 1);
+
     let query = {
       text: `SELECT 
               id, name, description, price, cost
             FROM products
-            WHERE company_id = $1 AND created_at::DATE BETWEEN $2 AND $3`,
-      values: [companyId, startDate, endDate],
+            WHERE company_id = $1 
+            ${q !== null ? `AND name ILIKE '%${q}%'` : ''}
+            LIMIT $2 OFFSET $3`,
+      values: [companyId, limit, offsets],
     };
 
     if (withStock && withStock === 'true') {
@@ -24,14 +41,23 @@ class ProductsService {
                 name, description, price, cost, stock
               FROM products
               LEFT JOIN stocks ON stocks.product_id = products.id
-              WHERE company_id = $1 AND products.created_at BETWEEN $2 AND $3`,
-        values: [companyId, startDate, endDate],
+              WHERE company_id = $1 
+              ${q !== null ? `AND name ILIKE '%${q}%'` : ''}
+              LIMIT $2 OFFSET $3`,
+        values: [companyId, limit, offsets],
       };
     }
 
-    const results = await this._pool.query(query);
+    const { rows } = await this._pool.query(query);
 
-    return results.rows;
+    return {
+      products: rows,
+      meta: {
+        totalPages,
+        total,
+        page,
+      },
+    };
   }
 
   async getProductById({ productId, companyId }) {

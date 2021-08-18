@@ -12,15 +12,15 @@ class UsersHandler {
 
   async getUsersHandler(request) {
     try {
-      this._validator.validateGetUsersPayload(request.query);
       const { companyId } = request.auth.credentials;
-      const { startDate, endDate } = request.query;
-      const users = await this._service.getUsers(companyId, { startDate, endDate });
+      const { page, q } = request.query;
+      const { users, meta } = await this._service.getUsers(companyId, { page, q });
 
       return {
         status: 'success',
         data: {
           users,
+          meta,
         },
       };
     } catch (error) {

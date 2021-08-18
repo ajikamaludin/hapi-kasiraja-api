@@ -29,11 +29,11 @@ const routes = (handler) => [
       validate: {
         validator: Joi,
         query: {
-          startDate: Joi.date().required(),
-          endDate: Joi.date().required(),
+          page: Joi.string().allow(''),
+          q: Joi.string().allow(''),
         },
         failAction: () => {
-          throw new InvariantError('startDate and endDate is required');
+          throw new InvariantError('params is required');
         },
       },
     },

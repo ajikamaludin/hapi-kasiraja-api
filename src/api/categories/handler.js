@@ -39,14 +39,12 @@ class CategoriesHandler {
   async getCategoriesHandler(request) {
     try {
       const { companyId } = request.auth.credentials;
-      const { startDate, endDate } = request.query;
-      const categories = await this._service.getCategories(companyId, { startDate, endDate });
+      const { page, q } = request.query;
+      const { categories, meta } = await this._service.getCategories(companyId, { page, q });
 
       return {
         status: 'success',
-        data: {
-          categories,
-        },
+        data: { categories, meta },
       };
     } catch (error) {
       return error;

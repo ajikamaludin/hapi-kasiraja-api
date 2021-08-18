@@ -8,15 +8,40 @@ class CategoriesService {
     this._pool = new Pool();
   }
 
-  async getCategories(companyId, { startDate, endDate }) {
+  async getCategories(companyId, { page = 1, limit = 10, q = null }) {
+    const recordsQuery = await this._pool.query(`
+      SELECT count(id) as total 
+      FROM categories 
+      WHERE 
+        company_id = '${companyId}' 
+        ${q !== null ? `AND name ILIKE '%${q}%'` : ''}
+    `);
+
+    const { total } = recordsQuery.rows[0];
+
+    const totalPages = Math.ceil(total / limit);
+    const offsets = limit * (page - 1);
+
     const query = {
-      text: 'SELECT id, name, description FROM categories WHERE company_id = $1 AND created_at::DATE BETWEEN $2 AND $3',
-      values: [companyId, startDate, endDate],
+      text: `
+        SELECT id, name, description 
+        FROM categories 
+        WHERE company_id = $1
+        ${q !== null ? `AND name ILIKE '%${q}%'` : ''}
+        LIMIT $2 OFFSET $3`,
+      values: [companyId, limit, offsets],
     };
 
-    const results = await this._pool.query(query);
+    const { rows } = await this._pool.query(query);
 
-    return results.rows;
+    return {
+      categories: rows,
+      meta: {
+        totalPages,
+        total,
+        page,
+      },
+    };
   }
 
   async getCategoryById(categoryId) {

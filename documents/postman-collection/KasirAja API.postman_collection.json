@@ -22,8 +22,8 @@
 									"pm.test('test is ok!', () => {",
 									"    const responseJson = pm.response.json();",
 									"",
-									"    pm.expect(responseJson).to.haveOwnProperty('status');",
-									"    pm.expect(responseJson.status).to.equals('Ok!');",
+									"    pm.expect(responseJson).to.haveOwnProperty('data');",
+									"    pm.expect(responseJson.data.status).to.equals('Ok!');",
 									"    // pm.environment.get('songId')",
 									"    pm.environment.set('status', responseJson.status);",
 									"})"
@@ -403,7 +403,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/users?startDate={{currentdate}}&endDate={{futuredate}}",
+							"raw": "{{host}}/users?q=e&p=1",
 							"host": [
 								"{{host}}"
 							],
@@ -412,12 +412,12 @@
 							],
 							"query": [
 								{
-									"key": "startDate",
-									"value": "{{currentdate}}"
+									"key": "q",
+									"value": "e"
 								},
 								{
-									"key": "endDate",
-									"value": "{{futuredate}}"
+									"key": "p",
+									"value": "1"
 								}
 							]
 						}
@@ -690,7 +690,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/units?startDate={{currentdate}}&endDate={{futuredate}}",
+							"raw": "{{host}}/units?q=e&page=1",
 							"host": [
 								"{{host}}"
 							],
@@ -699,12 +699,12 @@
 							],
 							"query": [
 								{
-									"key": "startDate",
-									"value": "{{currentdate}}"
+									"key": "q",
+									"value": "e"
 								},
 								{
-									"key": "endDate",
-									"value": "{{futuredate}}"
+									"key": "page",
+									"value": "1"
 								}
 							]
 						}
@@ -977,7 +977,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/categories?startDate={{currentdate}}&endDate={{futuredate}}",
+							"raw": "{{host}}/categories?page=1&q=m",
 							"host": [
 								"{{host}}"
 							],
@@ -986,12 +986,12 @@
 							],
 							"query": [
 								{
-									"key": "startDate",
-									"value": "{{currentdate}}"
+									"key": "page",
+									"value": "1"
 								},
 								{
-									"key": "endDate",
-									"value": "{{futuredate}}"
+									"key": "q",
+									"value": "m"
 								}
 							]
 						}
@@ -1292,7 +1292,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/products?startDate={{currentdate}}&endDate={{futuredate}}&withStock=true",
+							"raw": "{{host}}/products?page=1&q=e&withStock=true",
 							"host": [
 								"{{host}}"
 							],
@@ -1301,12 +1301,12 @@
 							],
 							"query": [
 								{
-									"key": "startDate",
-									"value": "{{currentdate}}"
+									"key": "page",
+									"value": "1"
 								},
 								{
-									"key": "endDate",
-									"value": "{{futuredate}}"
+									"key": "q",
+									"value": "e"
 								},
 								{
 									"key": "withStock",

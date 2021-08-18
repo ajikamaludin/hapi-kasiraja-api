@@ -1,4 +1,4 @@
-const { PostUserPayloadSchema, PutUserPayloadSchema, GetUsersPayloadSchema } = require('./schema');
+const { PostUserPayloadSchema, PutUserPayloadSchema } = require('./schema');
 const InvariantError = require('../../exceptions/InvariantError');
 
 const UsersValidator = {
@@ -10,12 +10,6 @@ const UsersValidator = {
   },
   validatePutUserPayload: (payload) => {
     const validationResult = PutUserPayloadSchema.validate(payload);
-    if (validationResult.error) {
-      throw new InvariantError(validationResult.error.message);
-    }
-  },
-  validateGetUsersPayload: (payload) => {
-    const validationResult = GetUsersPayloadSchema.validate(payload);
     if (validationResult.error) {
       throw new InvariantError(validationResult.error.message);
     }

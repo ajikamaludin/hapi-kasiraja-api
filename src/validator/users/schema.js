@@ -12,9 +12,4 @@ const PutUserPayloadSchema = Joi.object({
   password: Joi.string().allow(''),
 });
 
-const GetUsersPayloadSchema = Joi.object({
-  startDate: Joi.date().required(),
-  endDate: Joi.date().required(),
-});
-
-module.exports = { PostUserPayloadSchema, PutUserPayloadSchema, GetUsersPayloadSchema };
+module.exports = { PostUserPayloadSchema, PutUserPayloadSchema };
