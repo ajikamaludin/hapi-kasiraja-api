@@ -59,12 +59,12 @@ class UsersHandler {
       const { companyId } = request.auth.credentials;
       const { id: userId } = request.params;
 
-      const users = await this._service.getUserById({ userId, companyId });
+      const user = await this._service.getUserById({ userId, companyId });
 
       return {
         status: 'success',
         data: {
-          users,
+          user,
         },
       };
     } catch (error) {

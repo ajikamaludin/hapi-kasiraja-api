@@ -79,7 +79,7 @@ class UsersService {
 
     const query = {
       text: `
-        SELECT name, email, role FROM users WHERE company_id = $1
+        SELECT id, name, email, role FROM users WHERE company_id = $1
         ${q !== null ? `AND name ILIKE '%${q}%'` : ''}
         ORDER BY created_at DESC
         LIMIT $2 OFFSET $3`,
@@ -102,7 +102,7 @@ class UsersService {
     validateUuid(userId);
 
     const query = {
-      text: 'SELECT name, email, role FROM users WHERE id = $1 AND company_id = $2',
+      text: 'SELECT id, name, email, role FROM users WHERE id = $1 AND company_id = $2',
       values: [userId, companyId],
     };
 
@@ -120,7 +120,7 @@ class UsersService {
 
     const query = {
       text: `SELECT 
-              users.name, role, users.email, offices.id as officeId, companies.id as companyId 
+              users.id, users.name, role, users.email, offices.id as officeId, companies.id as companyId 
             FROM users 
             LEFT JOIN companies ON companies.id = users.company_id
             LEFT JOIN offices ON companies.id = offices.company_id
