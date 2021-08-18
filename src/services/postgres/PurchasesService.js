@@ -74,7 +74,8 @@ class PurchasesService {
               FROM purchases
               LEFT JOIN offices ON offices.id = purchases.office_id
               LEFT JOIN users ON users.id = purchases.created_by
-              WHERE purchases.id = $1`,
+              WHERE purchases.id = $1
+              ORDER BY created_at DESC`,
       values: [purchaseId],
     };
 

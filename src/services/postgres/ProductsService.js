@@ -43,6 +43,7 @@ class ProductsService {
               LEFT JOIN stocks ON stocks.product_id = products.id
               WHERE company_id = $1 
               ${q !== null ? `AND name ILIKE '%${q}%'` : ''}
+              ORDER BY created_at DESC
               LIMIT $2 OFFSET $3`,
         values: [companyId, limit, offsets],
       };
