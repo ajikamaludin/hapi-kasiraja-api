@@ -1292,7 +1292,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/products?page=1&q=e&withStock=true&withCategory=true",
+							"raw": "{{host}}/products?page=1&q=e&withStock=true&withCategory=true&categoryId={{categoryId}}",
 							"host": [
 								"{{host}}"
 							],
@@ -1315,6 +1315,10 @@
 								{
 									"key": "withCategory",
 									"value": "true"
+								},
+								{
+									"key": "categoryId",
+									"value": "{{categoryId}}"
 								}
 							]
 						}

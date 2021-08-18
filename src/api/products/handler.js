@@ -41,9 +41,11 @@ class ProductsHandler {
   async getProductsHandler(request) {
     try {
       const { companyId } = request.auth.credentials;
-      const { page, q, withStock } = request.query;
+      const {
+        page, q, withStock, withCategory, categoryId,
+      } = request.query;
       const { products, meta } = await this._service.getProducts(companyId, {
-        page, q, withStock,
+        page, q, withStock, withCategory, categoryId,
       });
 
       return {

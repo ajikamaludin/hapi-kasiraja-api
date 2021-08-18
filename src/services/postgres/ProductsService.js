@@ -10,7 +10,7 @@ class ProductsService {
   }
 
   async getProducts(companyId, {
-    page = 1, q = null, withStock = false, withCategory = false, limit = 10,
+    page = 1, q = null, withStock = false, withCategory = false, categoryId, limit = 10,
   }) {
     const recordsQuery = await this._pool.query(`
       SELECT count(id) as total 
@@ -27,14 +27,15 @@ class ProductsService {
 
     const query = {
       text: `SELECT 
-              products.id, name, description, price, cost
+              products.id, products.name, products.description, price, cost
               ${withStock === 'true' ? ', stock' : ''}
               ${withCategory === 'true' ? ', categories.name as category_name' : ''}
             FROM products
             ${withStock === 'true' ? 'LEFT JOIN stocks ON stocks.product_id = products.id' : ''}
             ${withCategory === 'true' ? 'LEFT JOIN categories ON categories.id = products.category_id' : ''}
-            WHERE company_id = $1
-            ${q ? `AND name ILIKE '%${q}%'` : ''}
+            WHERE products.company_id = $1
+            ${categoryId ? `AND categories.id = '${categoryId}'` : ''}
+            ${q ? `AND products.name ILIKE '%${q}%'` : ''}
             ORDER BY products.created_at DESC
             LIMIT $2 OFFSET $3`,
       values: [companyId, limit, offsets],
