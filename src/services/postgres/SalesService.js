@@ -73,7 +73,7 @@ class SalesService {
             WHERE 
               sales.office_id = (SELECT id FROM offices WHERE company_id = $1 LIMIT 1) 
             AND date::DATE BETWEEN $2 AND $3
-            ORDER BY created_at DESC`,
+            ORDER BY sales.created_at DESC`,
       values: [companyId, startDate, endDate],
     };
 

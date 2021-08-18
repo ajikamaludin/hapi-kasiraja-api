@@ -26,8 +26,9 @@ class UnitsService {
       text: `
         SELECT id, name, description FROM units WHERE company_id = $1
         ${q !== null ? `AND name ILIKE '%${q}%'` : ''}
+        ORDER BY created_at DESC
         LIMIT $2 OFFSET $3
-        ORDER BY created_at DESC`,
+        `,
       values: [companyId, limit, offsets],
     };
 
