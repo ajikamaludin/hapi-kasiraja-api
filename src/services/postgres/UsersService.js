@@ -120,7 +120,9 @@ class UsersService {
 
     const query = {
       text: `SELECT 
-              users.id, users.name, role, users.email, offices.id as officeId, companies.id as companyId 
+              users.id, users.name, role, users.email, 
+              offices.id as officeId, 
+              companies.id as companyId, companies.name as company_name 
             FROM users 
             LEFT JOIN companies ON companies.id = users.company_id
             LEFT JOIN offices ON companies.id = offices.company_id
