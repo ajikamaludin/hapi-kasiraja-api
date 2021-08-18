@@ -57,7 +57,10 @@ class ProductsService {
 
     const query = {
       text: `SELECT 
-              products.name, products.description, price, cost, cost_average, categories.name as category_name, stocks.stock
+              products.name, products.description, price, cost, cost_average, 
+              categories.name as category_name,
+              categories.id as category_id,
+              stocks.stock
             FROM products
             LEFT JOIN stocks ON stocks.product_id = products.id
             LEFT JOIN categories ON categories.id = products.category_id
