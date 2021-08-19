@@ -248,9 +248,57 @@ exports.up = (pgm) => {
       ],
     },
   });
+
+  pgm.createTable('customers', {
+    id: {
+      type: 'uuid',
+      primaryKey: true,
+    },
+    name: {
+      type: 'varchar(255)',
+      notNull: true,
+    },
+    phone: {
+      type: 'varchar(16)',
+      notNull: false,
+    },
+    address: {
+      type: 'text',
+      notNull: false,
+    },
+    description: {
+      type: 'text',
+      notNull: false,
+    },
+    company_id: {
+      type: 'uuid',
+      notNull: true,
+    },
+    created_at: {
+      type: 'timestamp without time zone',
+      notNull: true,
+      default: pgm.func('current_timestamp'),
+    },
+    updated_at: {
+      type: 'timestamp without time zone',
+      notNull: true,
+      default: pgm.func('current_timestamp'),
+    },
+  }, {
+    constraints: {
+      foreignKeys: [
+        {
+          references: 'companies(id)',
+          columns: 'company_id',
+          onDelete: 'CASCADE',
+        },
+      ],
+    },
+  });
 };
 
 exports.down = (pgm) => {
+  pgm.dropTable('customers');
   pgm.dropTable('prices');
   pgm.dropTable('stocks');
   pgm.dropTable('products');

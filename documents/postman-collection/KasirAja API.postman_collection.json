@@ -1072,7 +1072,7 @@
 									"    pm.expect(responseJson).to.haveOwnProperty('status');",
 									"    pm.expect(responseJson.status).to.equals('success');",
 									"",
-									"    pm.environment.set('unitId', '')",
+									"    pm.environment.set('categoryId', '')",
 									"})"
 								],
 								"type": "text/javascript"
@@ -1100,6 +1100,293 @@
 							"path": [
 								"categories",
 								"{{categoryId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "add  customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(201)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('customerId', responseJson.data.customerId)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"pelanggan 1\",\n    \"phone\": \"083\",\n    \"address\": \"klaten\",\n    \"description\": \"-\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/customers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/customers/{{customerId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get customers",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');",
+									"",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));",
+									"pm.environment.set('futuredate', moment().add(5, 'days').format((\"YYYY-MM-DD\")))"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/customers?page=1&q=p",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"customers"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "q",
+									"value": "p"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"pelanggan 1 update\",\n    \"phone\": \"083\",\n    \"address\": \"klaten\",\n    \"description\": \"update\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/customers/{{customerId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('test status code', () => {",
+									"    pm.response.to.have.status(200)",
+									"});",
+									"",
+									"pm.test('test data', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.haveOwnProperty('status');",
+									"    pm.expect(responseJson.status).to.equals('success');",
+									"",
+									"    pm.environment.set('customerId', '')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/customers/{{customerId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"customers",
+								"{{customerId}}"
 							]
 						}
 					},
@@ -1138,7 +1425,7 @@
 							"script": {
 								"exec": [
 									"const createProduct1Request = {",
-									"    url: 'http://localhost:5000/categories',",
+									"    url: `${pm.environment.get('host')}/categories`,",
 									"    method: 'POST',",
 									"    header: {",
 									"        'Content-Type': 'application/json',",
@@ -1438,14 +1725,79 @@
 			"name": "Transaction",
 			"item": [
 				{
+					"name": "pre runner [required for runner]",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const createCustomerRequest = {",
+									"    url: `${pm.environment.get('host')}/categories`,",
+									"    method: 'POST',",
+									"    header: {",
+									"        'Content-Type': 'application/json',",
+									"        'Authorization': `Bearer ${pm.environment.get('accessToken')}`",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"            name: \"category one\",",
+									"        }),",
+									"    },",
+									"};",
+									" ",
+									"pm.sendRequest(createCustomerRequest, (error, response) => {",
+									"    console.log(error ? error : response);",
+									"    const result = response.json()",
+									"    pm.environment.set('categoryId', result.data.categoryId)",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}",
+							"host": [
+								"{{host}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "sale",
 					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"const createCustomerRequest = {",
+									"    url: `${pm.environment.get('host')}/customers`,",
+									"    method: 'POST',",
+									"    header: {",
+									"        'Content-Type': 'application/json',",
+									"        'Authorization': `Bearer ${pm.environment.get('accessToken')}`",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify({",
+									"            name: \"customer one\",",
+									"        }),",
+									"    },",
+									"};",
+									" ",
+									"pm.sendRequest(createCustomerRequest, (error, response) => {",
+									"    console.log(error ? error : response);",
+									"    const result = response.json()",
+									"    pm.environment.set('customerId', result.data.customerId)",
+									"});",
+									"",
 									"const createProduct1Request = {",
-									"    url: 'http://localhost:5000/products',",
+									"    url: `${pm.environment.get('host')}/products`,",
 									"    method: 'POST',",
 									"    header: {",
 									"        'Content-Type': 'application/json',",
@@ -1470,7 +1822,7 @@
 									"});",
 									"",
 									"const createProduct2Request = {",
-									"    url: 'http://localhost:5000/products',",
+									"    url: `${pm.environment.get('host')}/products`,",
 									"    method: 'POST',",
 									"    header: {",
 									"        'Content-Type': 'application/json',",
@@ -1539,7 +1891,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"officeId\": \"{{officeId}}\",\n    \"date\": \"{{currentdate}}\",\n    \"invoice\": \"test\",\n    \"amount\": 2000,\n    \"discount\": 0,\n    \"description\": \"test saja\",\n    \"items\" : [\n        {\n            \"productId\": \"{{productId-1}}\",\n            \"quantity\": 1,\n            \"price\": 2000\n        },\n        {\n            \"productId\": \"{{productId-2}}\",\n            \"quantity\": 1,\n            \"price\": 4000\n        }\n    ]\n}",
+							"raw": "{\n    \"officeId\": \"{{officeId}}\",\n    \"customerId\": \"{{customerId}}\",\n    \"date\": \"{{currentdate}}\",\n    \"invoice\": \"test\",\n    \"amount\": 2000,\n    \"discount\": 0,\n    \"description\": \"test saja\",\n    \"items\" : [\n        {\n            \"productId\": \"{{productId-1}}\",\n            \"quantity\": 1,\n            \"price\": 2000\n        },\n        {\n            \"productId\": \"{{productId-2}}\",\n            \"quantity\": 1,\n            \"price\": 4000\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1683,7 +2035,7 @@
 							"script": {
 								"exec": [
 									"const createProduct1Request = {",
-									"    url: 'http://localhost:5000/products',",
+									"    url: `${pm.environment.get('host')}/products`,",
 									"    method: 'POST',",
 									"    header: {",
 									"        'Content-Type': 'application/json',",
@@ -1708,7 +2060,7 @@
 									"});",
 									"",
 									"const createProduct2Request = {",
-									"    url: 'http://localhost:5000/products',",
+									"    url: `${pm.environment.get('host')}/products`,",
 									"    method: 'POST',",
 									"    header: {",
 									"        'Content-Type': 'application/json',",

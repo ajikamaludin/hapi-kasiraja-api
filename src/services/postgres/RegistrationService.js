@@ -43,18 +43,25 @@ class RegistrationService {
       values: [unitId, 'Buah', companyId],
     };
 
+    const createCustomerQuery = {
+      text: 'INSERT INTO customers(id, name, phone, address, description, company_id) VALUES ((select uuid_generate_v4()), $1, $2, $3, $4, $5)',
+      values: ['Pelanggan Umum', '089', 'Klaten', '-', companyId]
+    }
+
+    const client = await this._pool.connect();
     try {
-      await this._pool.query('BEGIN');
-      await this._pool.query(createCompanyQuery);
-      await this._pool.query(createOfficeQuery);
-      await this._pool.query(createWarehouseQuery);
-      await this._pool.query(createUserQuery);
-      await this._pool.query(createUnitQuery);
-      await this._pool.query('COMMIT');
+      await client.query('BEGIN');
+      await client.query(createCompanyQuery);
+      await client.query(createOfficeQuery);
+      await client.query(createWarehouseQuery);
+      await client.query(createUserQuery);
+      await client.query(createUnitQuery);
+      await client.query('COMMIT');
     } catch (err) {
-      await this._pool.query('ROLLBACK');
-      console.log(err);
-      throw new InvariantError('Gagal melakukan registrasi');
+      await client.query('ROLLBACK');
+      throw new InvariantError(`Gagal melakukan registrasi: ${err.message}`);
+    } finally {
+      client.release();
     }
   }
 }

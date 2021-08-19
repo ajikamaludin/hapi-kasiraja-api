@@ -10,7 +10,7 @@ class SalesService {
   }
 
   async createTransaction({
-    date, invoice, description, amount, discount, items, userId, officeId,
+    date, invoice, description, amount, discount, items, userId, officeId, customerId,
   }) {
     // check stock
     const stocksQuery = await this._pool.query(`
@@ -35,9 +35,9 @@ class SalesService {
       const id = uuid();
       const saleQuery = {
         text: `INSERT INTO 
-                sales(id, date, invoice, description, amount, discount, created_by, office_id)
-              VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
-        values: [id, date, invoice, description, amount, discount, userId, officeId],
+                sales(id, date, invoice, description, amount, discount, created_by, office_id, customer_id)
+              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`,
+        values: [id, date, invoice, description, amount, discount, userId, officeId, customerId],
       };
 
       const sale = await client.query(saleQuery);
@@ -64,22 +64,52 @@ class SalesService {
     }
   }
 
-  async getSales(companyId, { startDate, endDate }) {
+  async getSales(companyId, {
+    startDate, endDate, page = 1, q = null, customerId, limit = 20,
+  }) {
+    const recordsQuery = await this._pool.query(`
+      SELECT count(sales.id) as total 
+      FROM sales 
+      ${customerId ? `LEFT JOIN customers ON customers.id = sales.customer_id` : ''}
+      WHERE 
+        sales.office_id = (SELECT id FROM offices WHERE company_id = '${companyId}' LIMIT 1)
+        ${q ? `AND invoice ILIKE '%${q}%'` : ''}
+        ${customerId ? `AND customer_id = '${customerId}'` : ''}
+    `);
+
+    const { total } = recordsQuery.rows[0];
+
+    const totalPages = Math.ceil(total / limit);
+    const offsets = limit * (page - 1);
+
     const query = {
       text: `SELECT 
-              sales.id, invoice, date, amount, offices.name as office_name
+              sales.id, invoice, date, amount, offices.name as office_name, users.name as casier
             FROM sales 
             LEFT JOIN offices ON offices.id = sales.office_id
+            LEFT JOIN users ON users.id = sales.created_by
+            ${customerId ? `LEFT JOIN customers ON customers.id = sales.customer_id` : ''}
             WHERE 
-              sales.office_id = (SELECT id FROM offices WHERE company_id = $1 LIMIT 1) 
+              sales.office_id = (SELECT id FROM offices WHERE company_id = $1 LIMIT 1)
+            ${q ? `AND invoice ILIKE '%${q}%'` : ''}
+            ${customerId ? `AND customer_id = '${customerId}'` : ''}
             AND date::DATE BETWEEN $2 AND $3
-            ORDER BY sales.created_at DESC`,
-      values: [companyId, startDate, endDate],
+            ORDER BY sales.created_at DESC
+            LIMIT $4 OFFSET $5
+            `,
+      values: [companyId, startDate, endDate, limit, offsets],
     };
 
-    const results = await this._pool.query(query);
+    const { rows } = await this._pool.query(query);
 
-    return results.rows;
+    return {
+      sales: rows,
+      meta: {
+        page,
+        total,
+        totalPages,
+      },
+    };
   }
 
   async getSaleById(saleId) {
@@ -87,10 +117,14 @@ class SalesService {
 
     const query = {
       text: `SELECT 
-                date, invoice, sales.description, amount, discount, users.name as creator, offices.name as office_name 
+                date, invoice, sales.description, amount, discount, 
+                users.name as casier, 
+                offices.name as office_name,
+                customers.id as customer_id, customers.name as customer_name
               FROM sales
               LEFT JOIN offices ON offices.id = sales.office_id
               LEFT JOIN users ON users.id = sales.created_by
+              LEFT JOIN customers ON customers.id = sales.customer_id
               WHERE sales.id = $1`,
       values: [saleId],
     };

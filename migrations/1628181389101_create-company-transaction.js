@@ -31,6 +31,10 @@ exports.up = (pgm) => {
       type: 'numeric(16,2)',
       notNull: false,
     },
+    customer_id: {
+      type: 'uuid',
+      notNull: true,
+    },
     created_by: {
       type: 'uuid',
       notNull: true,
@@ -56,6 +60,11 @@ exports.up = (pgm) => {
         {
           references: 'users(id)',
           columns: 'created_by',
+          onDelete: 'CASCADE',
+        },
+        {
+          references: 'customers(id)',
+          columns: 'customer_id',
           onDelete: 'CASCADE',
         },
       ],

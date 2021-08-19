@@ -69,6 +69,7 @@ class CategoriesHandler {
 
   async putCategoriesHandler(request) {
     try {
+      this._validator.validatePostCategoryPayload(request.payload);
       const { id: categoryId } = request.params;
       const { name, description } = request.payload;
 

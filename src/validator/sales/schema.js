@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const PostSalePayloadSchema = Joi.object({
   officeId: Joi.string().guid().required(),
+  customerId: Joi.string().guid().required(),
   date: Joi.date().required(),
   invoice: Joi.string().required(),
   amount: Joi.number().required(),
@@ -19,6 +20,9 @@ const PostSalePayloadSchema = Joi.object({
 const GetSalesPayloadSchema = Joi.object({
   startDate: Joi.date().required(),
   endDate: Joi.date().required(),
+  page: Joi.string().allow(''),
+  q: Joi.string().allow(''),
+  customerId: Joi.string().allow('').guid(),
 });
 
 module.exports = { PostSalePayloadSchema, GetSalesPayloadSchema };

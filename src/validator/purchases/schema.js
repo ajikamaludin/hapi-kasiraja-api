@@ -19,6 +19,8 @@ const PostPurchasePayloadSchema = Joi.object({
 const GetPurchasesPayloadSchema = Joi.object({
   startDate: Joi.date().required(),
   endDate: Joi.date().required(),
+  page: Joi.string().allow(''),
+  q: Joi.string().allow(''),
 });
 
 module.exports = { PostPurchasePayloadSchema, GetPurchasesPayloadSchema };

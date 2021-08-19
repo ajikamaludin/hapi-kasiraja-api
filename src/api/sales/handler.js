@@ -13,11 +13,11 @@ class SalesHandler {
       this._validator.validatePostSalePayload(request.payload);
       const { id: userId } = request.auth.credentials;
       const {
-        date, invoice, description, amount, discount, items, officeId,
+        date, invoice, description, amount, discount, items, officeId, customerId
       } = request.payload;
 
       const saleId = await this._service.createTransaction({
-        date, invoice, description, amount, discount, items, userId, officeId,
+        date, invoice, description, amount, discount, items, userId, officeId, customerId
       });
 
       const response = h.response({
@@ -39,14 +39,19 @@ class SalesHandler {
       this._validator.validateGetSalesPayload(request.query);
 
       const { companyId } = request.auth.credentials;
-      const { startDate, endDate } = request.query;
+      const {
+        startDate, endDate, page, q, customerId,
+      } = request.query;
 
-      const sales = await this._service.getSales(companyId, { startDate, endDate });
+      const { sales, meta } = await this._service.getSales(companyId, {
+        startDate, endDate, page, q, customerId,
+      });
 
       return {
         status: 'success',
         data: {
           sales,
+          meta,
         },
       };
     } catch (error) {
