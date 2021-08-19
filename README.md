@@ -12,7 +12,7 @@ contoh rest api POS ( point of sales ) built with hapi.js
 - PostgreSQL database
 - bisa lebih dari 1 toko `multi store`
 - bisa lebih dari 1 kasir `multi users`
-- pengelolaan produk, stok dan unit
+- pengelolaan kategori, produk, stok, dan pelanggan
 - pembelian
 - penjualan
 - diskon penjualan
