@@ -56,6 +56,7 @@ class RegistrationService {
       await client.query(createWarehouseQuery);
       await client.query(createUserQuery);
       await client.query(createUnitQuery);
+      await client.query(createCustomerQuery);
       await client.query('COMMIT');
     } catch (err) {
       await client.query('ROLLBACK');
