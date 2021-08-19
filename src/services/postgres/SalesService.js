@@ -84,11 +84,14 @@ class SalesService {
 
     const query = {
       text: `SELECT 
-              sales.id, invoice, date, amount, offices.name as office_name, users.name as casier
+              sales.id, invoice, date, amount, 
+              offices.name as office_name, 
+              users.name as casier,
+              customers.name as customer_name
             FROM sales 
             LEFT JOIN offices ON offices.id = sales.office_id
             LEFT JOIN users ON users.id = sales.created_by
-            ${customerId ? `LEFT JOIN customers ON customers.id = sales.customer_id` : ''}
+            LEFT JOIN customers ON customers.id = sales.customer_id
             WHERE 
               sales.office_id = (SELECT id FROM offices WHERE company_id = $1 LIMIT 1)
             ${q ? `AND invoice ILIKE '%${q}%'` : ''}
