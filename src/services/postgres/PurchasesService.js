@@ -28,7 +28,8 @@ class PurchasesService {
       const purchaseId = purchase.rows[0].id;
 
       await items.map(async (item) => {
-        await client.query(`UPDATE stocks SET stock = '${+item.stock + +item.quantity}', purchase = '${+item.purchase + +item.quantity}' WHERE product_id = '${item.productId}'`);
+        const { rows } = await client.query(`SELECT stock, purchase FROM stocks WHERE product_id = '${item.productId}'`)
+        await client.query(`UPDATE stocks SET stock = '${+rows[0].stock + +item.quantity}', purchase = '${+rows[0].purchase + +item.quantity}' WHERE product_id = '${item.productId}'`);
 
         const itemQuery = {
           text: `INSERT INTO purchase_items(purchase_id, product_id, quantity, cost) VALUES ('${purchaseId}', '${item.productId}', '${item.quantity}', '${item.cost}')`,

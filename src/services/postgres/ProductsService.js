@@ -28,7 +28,7 @@ class ProductsService {
     const query = {
       text: `SELECT 
               products.id, products.name, products.description, price, cost
-              ${withStock === 'true' ? ', stock' : ''}
+              ${withStock === 'true' ? ', stock, sale, purchase' : ''}
               ${withCategory === 'true' ? ', categories.name as category_name' : ''}
             FROM products
             ${withStock === 'true' ? 'LEFT JOIN stocks ON stocks.product_id = products.id' : ''}
