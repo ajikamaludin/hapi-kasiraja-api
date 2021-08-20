@@ -14,7 +14,7 @@ class CustomersService {
       FROM customers 
       WHERE 
         company_id = '${companyId}' 
-        ${q !== null ? `AND name ILIKE '%${q}%'` : ''}
+        ${q ? `AND (name ILIKE '%${q}%' OR phone ILIKE '%${q}%')` : ''}
     `);
 
     const { total } = recordsQuery.rows[0];
@@ -27,11 +27,13 @@ class CustomersService {
         SELECT id, name, phone, description 
         FROM customers 
         WHERE company_id = $1
-        ${q !== null ? `AND name ILIKE '%${q}%' OR phone ILIKE '%${q}%'` : ''}
+        ${q ? `AND (name ILIKE '%${q}%' OR phone ILIKE '%${q}%')` : ''}
         ORDER BY created_at DESC
         LIMIT $2 OFFSET $3`,
       values: [companyId, limit, offsets],
     };
+
+    console.log(query.text)
 
     const { rows } = await this._pool.query(query);
 
