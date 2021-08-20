@@ -43,10 +43,15 @@ class RegistrationService {
       values: [unitId, 'Buah', companyId],
     };
 
+    const createCategoryQuery = {
+      text: 'INSERT INTO categories(id, name, company_id) VALUES ((select uuid_generate_v4()), $1, $2)',
+      values: ['Umum', companyId]
+    };
+
     const createCustomerQuery = {
       text: 'INSERT INTO customers(id, name, phone, address, description, company_id) VALUES ((select uuid_generate_v4()), $1, $2, $3, $4, $5)',
-      values: ['Pelanggan Umum', '089', 'Klaten', '-', companyId]
-    }
+      values: ['Pelanggan Umum', '', '-', '-', companyId]
+    };
 
     const client = await this._pool.connect();
     try {
@@ -56,6 +61,7 @@ class RegistrationService {
       await client.query(createWarehouseQuery);
       await client.query(createUserQuery);
       await client.query(createUnitQuery);
+      await client.query(createCategoryQuery);
       await client.query(createCustomerQuery);
       await client.query('COMMIT');
     } catch (err) {

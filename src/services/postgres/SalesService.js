@@ -140,7 +140,7 @@ class SalesService {
 
     const itemsQuery = {
       text: `SELECT 
-              products.name, quantity, sale_items.price
+              products.id, products.code, products.name, quantity, sale_items.price
             FROM sale_items
             LEFT JOIN products ON products.id = sale_items.product_id
             WHERE sale_id = $1`,

@@ -85,6 +85,10 @@ exports.up = (pgm) => {
       type: 'uuid',
       primaryKey: true,
     },
+    code: {
+      type: 'varchar(255)',
+      notNull: true,
+    },
     name: {
       type: 'varchar(255)',
       notNull: true,

@@ -16,11 +16,11 @@ class ProductsHandler {
 
       const { companyId } = request.auth.credentials;
       const {
-        name, description, price, cost, stock, category_id: categoryId,
+        code, name, description, price, cost, stock, category_id: categoryId,
       } = request.payload;
 
       const productId = await this._service.addProduct({
-        name, description, price, cost, stock, categoryId, companyId,
+        code, name, description, price, cost, stock, categoryId, companyId,
       });
 
       const response = h.response({
@@ -84,11 +84,11 @@ class ProductsHandler {
 
       const { id: productId } = request.params;
       const {
-        name, description, price, cost, stock, category_id: categoryId,
+        code, name, description, price, cost, stock, category_id: categoryId,
       } = request.payload;
 
       await this._service.updateProductById(productId, {
-        name, description, price, cost, stock, categoryId,
+        code, name, description, price, cost, stock, categoryId,
       });
 
       return {
