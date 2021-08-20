@@ -1464,7 +1464,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"category_id\" : \"{{categoryId}}\",\n    \"name\": \"es krim\",\n    \"price\": \"2000\",\n    \"cost\": \"1000\",\n    \"stock\": \"2\"\n}",
+							"raw": "{\n    \"category_id\" : \"{{categoryId}}\",\n    \"code\": \"simple client code\",\n    \"name\": \"es krim\",\n    \"price\": \"2000\",\n    \"cost\": \"1000\",\n    \"stock\": \"2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1649,7 +1649,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"category_id\" : \"{{categoryId}}\",\n    \"name\": \"es krim update\",\n    \"price\": \"3000\",\n    \"cost\": \"2000\",\n    \"stock\": \"20\"\n}",
+							"raw": "{\n    \"category_id\" : \"{{categoryId}}\",\n    \"code\" : \"code\",\n    \"name\": \"es krim update\",\n    \"price\": \"3000\",\n    \"cost\": \"2000\",\n    \"stock\": \"20\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1807,10 +1807,11 @@
 									"        mode: 'raw',",
 									"        raw: JSON.stringify({",
 									"            category_id : pm.environment.get('categoryId'),",
+									"            code: \"code\",",
 									"            name: \"es krim\",",
 									"            price: \"2000\",",
 									"            cost: \"1000\",",
-									"            stock: \"2\"",
+									"            stock: 2",
 									"        }),",
 									"    },",
 									"};",
@@ -1832,10 +1833,11 @@
 									"        mode: 'raw',",
 									"        raw: JSON.stringify({",
 									"            category_id : pm.environment.get('categoryId'),",
+									"            code: \"code\",",
 									"            name: \"roti bakar\",",
 									"            price: \"4000\",",
 									"            cost: \"2000\",",
-									"            stock: \"4\"",
+									"            stock: 4",
 									"        }),",
 									"    },",
 									"};",
@@ -2045,10 +2047,11 @@
 									"        mode: 'raw',",
 									"        raw: JSON.stringify({",
 									"            category_id : pm.environment.get('categoryId'),",
-									"            name: \"es krim\",",
+									"            code: \"code\",",
+									"            name: \"purchase product 1\",",
 									"            price: \"2000\",",
 									"            cost: \"1000\",",
-									"            stock: \"2\"",
+									"            stock: 2",
 									"        }),",
 									"    },",
 									"};",
@@ -2070,10 +2073,11 @@
 									"        mode: 'raw',",
 									"        raw: JSON.stringify({",
 									"            category_id : pm.environment.get('categoryId'),",
-									"            name: \"roti bakar\",",
+									"            code: \"code\",",
+									"            name: \"purchase product 2\",",
 									"            price: \"4000\",",
 									"            cost: \"2000\",",
-									"            stock: \"4\"",
+									"            stock: 4",
 									"        }),",
 									"    },",
 									"};",
@@ -2196,7 +2200,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/purchases?startDate={{currentdate}}&endDate={{futuredate}}",
+							"raw": "{{host}}/purchases?startDate={{currentdate}}&endDate={{futuredate}}&q=t&page=1",
 							"host": [
 								"{{host}}"
 							],
@@ -2211,6 +2215,14 @@
 								{
 									"key": "endDate",
 									"value": "{{futuredate}}"
+								},
+								{
+									"key": "q",
+									"value": "t"
+								},
+								{
+									"key": "page",
+									"value": "1"
 								}
 							]
 						}

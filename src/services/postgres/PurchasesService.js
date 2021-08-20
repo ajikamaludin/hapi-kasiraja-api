@@ -49,21 +49,48 @@ class PurchasesService {
     }
   }
 
-  async getPurchases(companyId, { startDate, endDate }) {
+  async getPurchases(companyId, { startDate, endDate, page = 1, q, limit = 20 }) {
+    const recordsQuery = await this._pool.query(`
+      SELECT count(purchases.id) as total 
+      FROM purchases
+      WHERE 
+        purchases.office_id = (SELECT id FROM offices WHERE company_id = '${companyId}' LIMIT 1)
+        ${q ? `AND invoice ILIKE '%${q}%'` : ''}
+      AND date::DATE BETWEEN '${startDate}' AND '${endDate}'
+    `);
+
+    const { total } = recordsQuery.rows[0];
+
+    const totalPages = Math.ceil(total / limit);
+    const offsets = limit * (page - 1);
+
     const query = {
       text: `SELECT 
-              purchases.id, invoice, date, amount, offices.name as office_name
+              purchases.id, invoice, date, amount,
+              offices.name as office_name,
+              users.name as creator
             FROM purchases 
             LEFT JOIN offices ON offices.id = purchases.office_id
+            LEFT JOIN users ON users.id = purchases.created_by
             WHERE 
-              purchases.office_id = (SELECT id FROM offices WHERE company_id = $1 LIMIT 1) 
-            AND date::DATE BETWEEN $2 AND $3`,
-      values: [companyId, startDate, endDate],
+              purchases.office_id = (SELECT id FROM offices WHERE company_id = $1 LIMIT 1)
+              ${q ? `AND invoice ILIKE '%${q}%'` : ''}
+            AND date::DATE BETWEEN $2 AND $3
+            ORDER BY purchases.created_at DESC
+            LIMIT $4 OFFSET $5`,
+      values: [companyId, startDate, endDate, limit, offsets],
     };
 
-    const results = await this._pool.query(query);
+    const { rows } = await this._pool.query(query);
 
-    return results.rows;
+    return {
+      purchases: rows,
+      meta: {
+        page,
+        total,
+        totalPages,
+      },
+    };
   }
 
   async getPurchaseById(purchaseId) {
@@ -88,7 +115,7 @@ class PurchasesService {
 
     const itemsQuery = {
       text: `SELECT 
-              products.name, quantity, purchase_items.cost
+              products.id, products.code, products.name, quantity, purchase_items.cost
             FROM purchase_items
             LEFT JOIN products ON products.id = purchase_items.product_id
             WHERE purchase_id = $1`,

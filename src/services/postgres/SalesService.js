@@ -73,8 +73,9 @@ class SalesService {
       ${customerId ? `LEFT JOIN customers ON customers.id = sales.customer_id` : ''}
       WHERE 
         sales.office_id = (SELECT id FROM offices WHERE company_id = '${companyId}' LIMIT 1)
-        ${q ? `AND invoice ILIKE '%${q}%'` : ''}
-        ${customerId ? `AND customer_id = '${customerId}'` : ''}
+      ${q ? `AND invoice ILIKE '%${q}%'` : ''}
+      ${customerId ? `AND customer_id = '${customerId}'` : ''}
+      AND date::DATE BETWEEN '${startDate}' AND '${endDate}'
     `);
 
     const { total } = recordsQuery.rows[0];

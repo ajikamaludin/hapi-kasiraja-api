@@ -36,17 +36,17 @@ class PurchasesHandler {
 
   async getPurchasesHandler(request) {
     try {
-      this._validator.validateGetPurchasesPayload(request.query);
 
       const { companyId } = request.auth.credentials;
-      const { startDate, endDate } = request.query;
+      const { startDate, endDate, page, q } = request.query;
 
-      const purchases = await this._service.getPurchases(companyId, { startDate, endDate });
+      const { purchases , meta } = await this._service.getPurchases(companyId, { startDate, endDate, page, q });
 
       return {
         status: 'success',
         data: {
           purchases,
+          meta,
         },
       };
     } catch (error) {
