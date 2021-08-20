@@ -33,8 +33,6 @@ class CustomersService {
       values: [companyId, limit, offsets],
     };
 
-    console.log(query.text)
-
     const { rows } = await this._pool.query(query);
 
     return {
