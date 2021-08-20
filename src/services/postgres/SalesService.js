@@ -70,7 +70,7 @@ class SalesService {
     const recordsQuery = await this._pool.query(`
       SELECT count(sales.id) as total 
       FROM sales 
-      ${customerId ? `LEFT JOIN customers ON customers.id = sales.customer_id` : ''}
+      ${customerId ? 'LEFT JOIN customers ON customers.id = sales.customer_id' : ''}
       WHERE 
         sales.office_id = (SELECT id FROM offices WHERE company_id = '${companyId}' LIMIT 1)
       ${q ? `AND invoice ILIKE '%${q}%'` : ''}

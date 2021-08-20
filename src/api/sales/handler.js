@@ -13,11 +13,11 @@ class SalesHandler {
       this._validator.validatePostSalePayload(request.payload);
       const { id: userId } = request.auth.credentials;
       const {
-        date, invoice, description, amount, discount, items, officeId, customerId
+        date, invoice, description, amount, discount, items, officeId, customerId,
       } = request.payload;
 
       const saleId = await this._service.createTransaction({
-        date, invoice, description, amount, discount, items, userId, officeId, customerId
+        date, invoice, description, amount, discount, items, userId, officeId, customerId,
       });
 
       const response = h.response({

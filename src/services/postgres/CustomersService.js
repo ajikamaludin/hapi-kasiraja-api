@@ -62,7 +62,9 @@ class CustomersService {
     return results.rows[0];
   }
 
-  async addCustomer({ name, phone, address, description, companyId }) {
+  async addCustomer({
+    name, phone, address, description, companyId,
+  }) {
     const id = uuid();
     const query = {
       text: 'INSERT INTO customers(id, name, phone, address, description, company_id) VALUES ($1, $2, $3, $4, $5, $6)',
@@ -74,7 +76,9 @@ class CustomersService {
     return id;
   }
 
-  async updateCustomerById(customerId, { name, phone, address, description }) {
+  async updateCustomerById(customerId, {
+    name, phone, address, description,
+  }) {
     validateUuid(customerId);
 
     const query = {
