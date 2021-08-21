@@ -22,6 +22,14 @@ class GeneralService {
       `SELECT COUNT(id) as purchase_count FROM purchases WHERE office_id = (SELECT id FROM offices WHERE company_id = '${companyId}' LIMIT 1) AND date::DATE = CURRENT_DATE - 1`,
     );
 
+    const totalSales = await this._pool.query(`
+      SELECT SUM(amount) as sale_total FROM sales WHERE office_id = (SELECT id FROM offices WHERE company_id = '${companyId}' LIMIT 1)
+    `);
+
+    const totalPurchases = await this._pool.query(`
+      SELECT SUM(amount) as purchase_total FROM purchases WHERE office_id = (SELECT id FROM offices WHERE company_id = '${companyId}' LIMIT 1)
+    `);
+
     const graphSale = await this._pool.query(
       `SELECT COUNT(date), date::DATE 
       FROM sales
@@ -51,6 +59,8 @@ class GeneralService {
       grownPurchase,
       graphSale: graphSale.rows,
       graphPurchase: graphPurchase.rows,
+      totalSales: totalSales.rows[0].sale_total,
+      totalPurchases: totalPurchases.rows[0].purchase_total,
     };
   }
 }
